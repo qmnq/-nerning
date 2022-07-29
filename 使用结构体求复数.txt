@@ -1,0 +1,89 @@
+#include<stdio.h>
+/*抽象数据类型"复数"的实现
+	ADT 抽象数据类型名
+	{
+	Data
+		数据对象的定义
+		数据元素之间逻辑关系的定义
+	Operation
+		操作 1
+			初始条件
+			操作结果描述
+		操作 2
+			......
+		操作 n
+
+	}ADT 抽象数据类型名
+
+	复数的四则运算：
+		加法：(a + bi) + (c + di) = (a + c) + (b + d)i
+		减法：(a + bi) - (c + di) = (a - c) + (b - d)i
+		乘法：(a + bi)(c + di) = (ac - bd) + (bc + ad)i
+		除法:（a + bi）/(c + di) = [(ac+bd)/(c^2 + d^2)] + [(bc - ad)/(c^2 + d^2)]
+*/
+
+typedef struct {
+	//Data数据定义
+	float realpart;//实部
+	float imagpart;//虚部
+}Complex;
+
+//操作：（函数）
+//函数声明（格式）
+void assign(Complex* A, float real, float imag);/*赋值*/
+void add(Complex* C, Complex A, Complex B);/*A+B*/
+void minus(Complex* C, Complex A, Complex B);/*A-B*/
+void multiply(Complex* C, Complex A, Complex B);/*A*B*/
+void divide(Complex* C, Complex A, Complex B);/*A/B*/
+
+/*构造一个复数*/
+void assign(Complex* A, float real, float imag) 
+{
+	A->realpart = real;/*实部赋值*/
+	A->imagpart = imag;/*虚部赋值*/
+}
+/*求和*/
+void add(Complex* C, Complex A, Complex B) 
+{
+	C->imagpart = (A.imagpart) + (B.imagpart);
+	C->realpart = (A.realpart) + (B.realpart);
+	/*End of Add()*/
+}
+/*求差*/
+void minus(Complex* C, Complex A, Complex B)
+{
+	C->imagpart = (A.imagpart) - (B.imagpart);
+	C->realpart = (A.realpart) - (B.realpart);
+}
+/*求积*/
+void multiply(Complex* C, Complex A, Complex B)
+{
+	C->realpart = (A.realpart * B.realpart) - (A.imagpart * B.imagpart);
+	C->imagpart = (A.imagpart * B.realpart) + (A.realpart * B.imagpart);
+}
+/*求商*/
+void divide(Complex* C, Complex A, Complex B)
+{
+	if (!(B.realpart * B.realpart + B.imagpart * B.imagpart)) 
+	{
+		printf("B的实部和虚部不能同时为0!\n");
+		return 0;
+	}
+	C->realpart = ((A.realpart * B.realpart) + (A.imagpart * B.imagpart)) / (B.realpart * B.realpart + B.imagpart * B.imagpart);
+	C->imagpart = ((A.imagpart * B.realpart) - (A.realpart * B.imagpart)) / (B.realpart * B.realpart + B.imagpart * B.imagpart);
+}
+
+int main() {
+	//求z = (8+6i)(4+3i)/((8+6i)+(4+3i))
+	Complex z,A,B;
+	assign(&A, 8, 6);
+	assign(&B, 4, 3);
+
+	Complex a,b;
+	multiply(&a, A, B);
+	add(&b, A, B);
+	divide(&z, a, b);
+
+	printf("z = %f + %f i", z.realpart, z.imagpart);
+	return 0;
+}

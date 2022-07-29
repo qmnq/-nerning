@@ -1,0 +1,14 @@
+#include<stdio.h>
+int main() {
+	int n = 3;
+	int i, j;
+	for (i = 1; i <= n; i++) {			     //n+1//循环了n次，但i <= n判断了n+1次
+		for (int j = 1; j <= n; j++) {       //n*(n+1)//j和i都是从1开始的，所以也只执行
+			printf("1\n");				     //n*n
+			for (int k = 0; k < n; k++) {    //n*n*(n+1)//注意这里k是从0开始的，所以执行n次
+				printf("2\n");				 //n*n*n
+			}
+		}
+	}
+	return 0;
+}
